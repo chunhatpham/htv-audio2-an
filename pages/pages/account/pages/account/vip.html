@@ -1,0 +1,106 @@
+<style>
+    .vip-page-wrapper { animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; padding-bottom: 50px; }
+    
+    .current-vip-card { background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 30px; text-align: center; margin-bottom: 30px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+    .current-vip-card::after { content: 'CURRENT'; position: absolute; top: 15px; right: -30px; background: #34C759; color: #fff; font-size: 10px; font-weight: 900; padding: 5px 40px; transform: rotate(45deg); }
+    .vip-icon-big { font-size: 60px; margin-bottom: 15px; display: block; filter: drop-shadow(0 0 15px var(--v-color)); }
+    .vip-name-big { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 5px; }
+    .vip-progress-container { margin-top: 25px; text-align: left; }
+    .progress-label { display: flex; justify-content: space-between; color: #8e8e93; font-size: 13px; margin-bottom: 8px; }
+    .progress-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0A84FF, #5E5CE6); border-radius: 10px; transition: width 1s ease-in-out; }
+
+    .vip-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; }
+    .vip-item { background: rgba(44, 44, 46, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 20px; transition: 0.3s; }
+    .vip-item.active { border-color: #0A84FF; background: rgba(10, 132, 255, 0.05); }
+    .v-rank { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; }
+    .v-info { flex: 1; }
+    .v-title { color: #fff; font-weight: 800; font-size: 17px; margin-bottom: 4px; }
+    .v-desc { color: #8e8e93; font-size: 13px; line-height: 1.4; }
+    .v-benefit { color: #34C759; font-weight: 700; font-size: 14px; margin-top: 5px; }
+</style>
+
+<div class="vip-page-wrapper">
+    <h2 style="text-align: center; color: #fff; margin-bottom: 25px;" data-i18n="vip_level_title">Cấp Tài Khoản</h2>
+
+    <div class="current-vip-card" id="myVipCard">
+        <span class="vip-icon-big" id="myVipIcon">🥉</span>
+        <h3 class="vip-name-big" id="myVipName">Hạng Thường</h3>
+        <p style="color: #8e8e93; font-size: 14px;">Giảm giá dịch vụ: <span id="myVipDiscount" style="color: #34C759; font-weight: bold;">0%</span></p>
+
+        <div class="vip-progress-container">
+            <div class="progress-label">
+                <span>Tiến trình lên <b id="nextLevelName">Cấp 2</b></span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar" style="width: 0%;"></div>
+            </div>
+            <p style="font-size: 11px; color: #8e8e93; margin-top: 10px; text-align: center;" id="vipConditionNote">Cần nạp thêm 500.000 ₫ và sử dụng dịch vụ.</p>
+        </div>
+    </div>
+
+    <div class="vip-grid">
+        <div class="vip-item" id="itemVip1">
+            <div class="v-rank" style="background: rgba(205, 127, 50, 0.1); color: #CD7F32;">1</div>
+            <div class="v-info">
+                <div class="v-title">Hạng Thường</div>
+                <div class="v-desc">Mặc định cho tài khoản mới. Trải nghiệm đầy đủ dịch vụ.</div>
+                <div class="v-benefit">Ưu đãi: 0%</div>
+            </div>
+        </div>
+        <div class="vip-item" id="itemVip2">
+            <div class="v-rank" style="background: rgba(192, 192, 192, 0.1); color: #C0C0C0;">2</div>
+            <div class="v-info">
+                <div class="v-title">Thành Viên Thân Thiết</div>
+                <div class="v-desc">Điều kiện: Tổng nạp ≥ 500k & Đã tiêu dùng.</div>
+                <div class="v-benefit">Ưu đãi: Giảm giá 5% toàn web</div>
+            </div>
+        </div>
+        <div class="vip-item" id="itemVip3">
+            <div class="v-rank" style="background: rgba(255, 215, 0, 0.1); color: #FFD700;">3</div>
+            <div class="v-info">
+                <div class="v-title">Hạng VIP (Elite)</div>
+                <div class="v-desc">Điều kiện: Tổng nạp ≥ 1 triệu & Tiêu dùng ≥ 500k.</div>
+                <div class="v-benefit">Ưu đãi: Giảm giá 15% toàn web</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function renderVipPage() {
+        const vip = window.getVipInfo();
+        const d = window.currentUser.totalDeposit || 0;
+        const s = window.currentUser.totalSpent || 0;
+
+        const icons = ["", "🥉", "🥈", "🥇"];
+        document.getElementById('myVipIcon').textContent = icons[vip.level];
+        document.getElementById('myVipName').textContent = vip.name;
+        document.getElementById('myVipDiscount').textContent = vip.discount + "%";
+        document.getElementById('myVipCard').style.setProperty('--v-color', vip.color);
+
+        let percent = 0;
+        let note = "";
+        if (vip.level === 1) {
+            percent = (d / 500000) * 100;
+            note = `Cần nạp thêm ${window.formatCurrency(500000 - d)} để lên Cấp 2.`;
+            document.getElementById('nextLevelName').textContent = "Cấp 2";
+        } else if (vip.level === 2) {
+            percent = (d / 1000000) * 100;
+            note = `Cần nạp thêm ${window.formatCurrency(1000000 - d)} và tiêu thêm ${window.formatCurrency(500000 - s)} để lên Cấp 3.`;
+            document.getElementById('nextLevelName').textContent = "Cấp 3";
+        } else {
+            percent = 100;
+            note = "Bạn đã đạt cấp độ cao nhất. Cảm ơn sự ủng hộ của bạn!";
+            document.getElementById('nextLevelName').textContent = "MAX";
+        }
+
+        if(percent > 100) percent = 100;
+        document.getElementById('progressBar').style.width = percent + "%";
+        document.getElementById('progressPercent').textContent = Math.floor(percent) + "%";
+        document.getElementById('vipConditionNote').textContent = note;
+
+        document.getElementById('itemVip' + vip.level).classList.add('active');
+    })();
+</script>
