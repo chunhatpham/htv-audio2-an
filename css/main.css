@@ -1,0 +1,45 @@
+/* --- HỆ ĐIỀU HÀNH iOS 26 - THEME SYSTEM --- */
+:root {
+    --bg-base: #000000;
+    --glass-bg: rgba(28, 28, 30, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: #8e8e93;
+    --accent-blue: #0A84FF;
+    --accent-purple: #BF5AF2;
+    --accent-pink: #FF375F;
+    --accent-green: #34C759;
+    --accent-gold: #FFD700;
+    --glow-spread: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { background-color: var(--bg-base); color: var(--text-primary); overflow-x: hidden; scroll-behavior: smooth; }
+
+/* --- AMBIENT GLOW (ÁNH SÁNG NỀN) --- */
+.ambient-light { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(var(--glow-spread)); opacity: 0.35; animation: floatOrb 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+.orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-purple); }
+.orb-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: var(--accent-blue); animation-delay: -5s; }
+.orb-3 { top: 40%; left: 60%; width: 30vw; height: 30vw; background: var(--accent-pink); animation-delay: -10s; }
+@keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20%, 20%) scale(1.2); } }
+
+/* --- MÀN HÌNH TẢI (LOADING SCREEN) --- */
+.global-loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.global-loader.active { opacity: 1; pointer-events: auto; }
+.loader-ring-wrapper { position: relative; width: 120px; height: 120px; display: flex; justify-content: center; align-items: center; }
+.loader-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue)); animation: spin 1s linear infinite; }
+.loader-ring::before { content: ''; position: absolute; inset: 4px; border-radius: 50%; background: rgba(20,20,22,1); }
+.loader-logo { position: absolute; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; z-index: 2; border: 2px solid rgba(255,255,255,0.1); animation: breathe 2s ease-in-out infinite alternate; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes breathe { 0% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(10, 132, 255, 0.3)); } 100% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(10, 132, 255, 0.8)); } }
+
+/* --- THÔNG BÁO CHÀO MỪNG (WELCOME POPUP) --- */
+.welcome-popup { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+.welcome-popup.active { opacity: 1; pointer-events: auto; }
+.welcome-content { background: rgba(30, 30, 35, 0.85); border: 1px solid rgba(255,255,255,0.15); padding: 35px 25px; border-radius: 24px; text-align: center; max-width: 90%; width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); transform: scale(0.8) translateY(20px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.welcome-popup.active .welcome-content { transform: scale(1) translateY(0); }
+.welcome-title { font-size: 22px; font-weight: 800; margin-bottom: 15px; color: var(--accent-blue); text-transform: uppercase; }
+.welcome-text { font-size: 16px; color: #fff; line-height: 1.6; margin-bottom: 30px; }
+.welcome-btn { background: linear-gradient(135deg, #0A84FF, #00f2fe); color: #fff; border: none; padding: 14px 30px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%; box-shadow: 0 5px 15px rgba(10,132,255,0.3); }
+.welcome-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(10,132,255,0.5); }

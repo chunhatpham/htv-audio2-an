@@ -1,0 +1,46 @@
+/* --- HEADER CHÍNH --- */
+.ios-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; }
+.header-main { position: relative; padding: 12px 24px; background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(25px) saturate(200%); -webkit-backdrop-filter: blur(25px) saturate(200%); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+
+/* FIX LỖI ĐÈ LOGO */
+.logo-container { display: flex; align-items: center; flex: 1; min-width: 0; cursor: pointer; overflow: hidden;}
+.logo-text { font-size: clamp(14px, 4vw, 20px); font-weight: 900; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; gap: 2px;}
+
+.header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* --- NGÔN NGỮ --- */
+.lang-wrapper { position: relative; }
+.lang-btn { display: flex; align-items: center; gap: 4px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.lang-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.lang-btn .flag-icon { width: 18px; height: 12px; border-radius: 2px; object-fit: cover; }
+.lang-btn .lang-text { color: #fff; font-size: 12px; font-weight: 700; }
+.lang-btn .arrow-icon { width: 10px; height: 10px; fill: #8e8e93; transition: transform 0.3s; }
+.lang-wrapper.active .arrow-icon { transform: rotate(180deg); }
+
+.lang-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: rgba(28, 28, 30, 0.95); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; width: 130px; padding: 6px; opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1002; transform: translateY(-10px); }
+.lang-wrapper.active .lang-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.lang-option { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+.lang-option:hover { background: rgba(255,255,255,0.1); }
+.lang-option .flag-icon { width: 20px; height: 14px; border-radius: 2px; }
+.lang-option span { color: #fff; font-size: 13px; font-weight: 600; }
+.lang-option.selected { background: rgba(10, 132, 255, 0.15); color: #0A84FF; }
+
+/* --- ICON TÌM KIẾM & MENU --- */
+.icon-btn { background: transparent; border: none; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; width: 32px; height: 32px; border-radius: 50%; transition: all 0.3s; }
+.icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
+.icon-btn svg { fill: currentColor; width: 18px; height: 18px; }
+
+/* --- THANH TÌM KIẾM TRƯỢT XUỐNG --- */
+.search-dropdown { position: absolute; top: 100%; left: 0; width: 100%; background: rgba(28, 28, 30, 0.95); backdrop-filter: blur(30px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 12px 16px; transform: translateY(-100%); opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 1000; display: flex; justify-content: center; }
+.search-dropdown.active { transform: translateY(0); opacity: 1; pointer-events: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.search-input-wrapper { display: flex; align-items: center; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; width: 100%; max-width: 600px; padding: 4px 12px; }
+.search-input-wrapper input { flex: 1; background: transparent; border: none; color: #fff; font-size: 14px; outline: none; padding: 8px 0; }
+.search-submit-btn { background: #0A84FF; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-left: 10px; }
+
+/* Responsive cho màn hình quá nhỏ */
+@media (max-width: 400px) {
+    .header-main { padding: 10px; gap: 4px;}
+    .lang-btn { padding: 4px; }
+    .lang-btn .lang-text { display: none; } 
+    .icon-btn { width: 28px; height: 28px; }
+}
